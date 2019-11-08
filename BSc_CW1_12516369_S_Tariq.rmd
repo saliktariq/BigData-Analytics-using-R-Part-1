@@ -1,0 +1,235 @@
+---
+title: "BSc Coursework 1"
+author: "Salik Tariq / Student ID: 12516369"
+output: pdf_document
+---
+# 1)	Statistical learning methods
+## For each of parts (a) through (d), indicate whether we would generally expect the performance of a flexible
+## statistical learning method to be better or worse than an inflexible method.
+
+### (a) The number of predictors p is extremely large, and the number of observations n is small.
+
+Worse - If the number of predictors p is extremely large and the observations n is small then we will not have enough information about the effect and variation of each parameters considered, therefore flexible method will overfit the model due to small number of observations n.
+
+### (b) The sample size n is extremely large, and the number of predictors p is small.
+
+Better - If the sample size n is extremely large, and the number of predictors p is small then we will have enough information about most predictors, so a flexible method would perform better.
+
+### (c) The relationship between the predictors and response is highly non-linear.
+
+Better - a more flexible method will fit the data better due to the degree of freedom it provides, therefore felxible method would perform better.
+
+### (d) The standard deviation of the error terms, i.e. $\sigma = sd(\epsilon)$, is extremely high.
+
+Worse - The flexible statistical learning method will incorporate the noise in error terms and thus will increase the SD of error and hence the model fitting would be poor in case of flexibel method.
+
+# 2) Bayes’ rule 
+## Given a dataset including 20 samples (S_1, . . . , S_20) about the temperature (i.e. hot or cool) for playing golf
+## (i.e. yes or no), you are required to use the Bayes’ rule to calculate the probability of playing golf according
+## to the temperature, i.e. P(Play Golf | Temperature).
+
+# 3) Descriptive analysis
+## This exercise involves the Auto data set studied in the class.
+
+```{r}
+
+install.packages("ISLR")
+library(ISLR) #this library contains Auto dataset
+```
+
+### (a) Which of the predictors are quantitative, and which are qualitative?
+```{r}
+str(Auto)
+
+```
+Based on the output:
+Quantitative predictors are: mpg, cylinders, displacement, horsepower, weight, acceleration, year and origin.
+Qualitative predictors are: name
+
+### (b) What is the range of each quantitative predictor? You can answer this using the range() function.
+```{r}
+range(Auto$mpg)
+```
+Range for mpg is 9.0 to 46.6
+```{r}
+range(Auto$cylinders)
+```
+Range for cylinders is from 3 to 8
+```{r}
+range(Auto$displacement)
+```
+Range for displacement is from 68 to 455
+```{r}
+range(Auto$horsepower)
+```
+Range for horsepower is from 46 to 230
+```{r}
+range(Auto$weight)
+```
+Range for weight is from 1613 to 5140
+```{r}
+range(Auto$acceleration)
+```
+Range for acceleration is from 8.0 to 24.8
+```{r}
+range(Auto$year)
+```
+Range for year is from 70 to 82
+```{r}
+range(Auto$origin)
+```
+Range for origin is from 1 to 3
+### (c) What is the median and variance of each quantitative predictor?
+```{r}
+mean(Auto$mpg)
+var(Auto$mpg)
+```
+mean is 23.44592 and variance is 60.91814
+```{r}
+mean(Auto$cylinders)
+var(Auto$cylinders)
+```
+mean is 5.471939  and variance is 2.909696
+```{r}
+mean(Auto$displacement)
+var(Auto$displacement)
+```
+mean is 194.412 and variance is 10950.37
+```{r}
+mean(Auto$horsepower)
+var(Auto$horsepower)
+```
+mean is 104.4694 and variance is 1481.569
+```{r}
+mean(Auto$weight)
+var(Auto$weight)
+```
+mean is 2977.584 and variance is 721484.7
+```{r}
+mean(Auto$acceleration)
+var(Auto$acceleration)
+```
+mean is 15.54133 and variance is 7.611331
+```{r}
+mean(Auto$year)
+var(Auto$year)
+```
+mean is 75.97959 and variance is 13.56991
+```{r}
+mean(Auto$origin)
+var(Auto$origin)
+```
+mean is 1.576531 and variance is 0.6488595
+
+### (d) Now remove the 11th through 79th observations (inclusive) in the dataset. What is the range, median,
+### and variance of each predictor in the subset of the data that remains?
+```{r}
+Auto2 <- Auto[-c(11:79),] #removing rows 11th to 79th inclusive
+
+apply(Auto2[,1:8], 2, range) #2 indicates that the operation is applied by column
+
+```
+Range of the remaining data after removing rows 11th through 79th.
+
+```{r}
+
+
+apply(Auto2[,1:8], 2, median) 
+
+```
+Median of the remaining data after removing rows 11th through 79th.
+
+```{r}
+
+
+apply(Auto2[,1:8], 2, var)
+
+```
+Variance of the remaining data after removing rows 11th through 79th.
+
+### (e) Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your
+### choice. Create some plots highlighting the relationships among the predictors. Comment on your
+### findings.
+```{r}
+Auto3 <- Auto[, !sapply(Auto, is.factor)]
+pairs(Auto3, main="Scatterplot of all quantitative variables in dataset")
+```
+Scatterplot of cylinders v horsepower
+```{r}
+attach(Auto3) # to access variables of a Auto3 without calling the Auto3.
+plot(cylinders, horsepower, col = "blue", main="Cylinders v Horsepower")
+
+```
+We can see that by increasing the number of cylinders, the horsepower increases, therefore horsepower is directly proportional to the number of cylinders.
+
+
+Scatterplot of weight v acceleration
+```{r}
+
+plot(weight, acceleration, col = "red", main="Weight v Acceleration")
+
+```
+We can see that by increasing the weight, the acceleration decreases, therefore weight is inversely proportional to the acceleration.
+
+Scatterplot of mpg v displacement
+```{r}
+
+plot(mpg, displacement, col = "orange", main="MPG v Displacement")
+
+```
+We can see that by increasing the mpg, the displacement decreases, therefore by increaseing the mpg(fuel efficiency), the displacement decreases.
+
+
+
+### (f) Suppose that we wish to predict gas mileage (mpg) on the basis of the other variables. Do your plots
+### suggest that any of the other variables might be useful in predicting mpg? Justify your answer.
+
+```{r}
+sapply(Auto3, function(x) cor(Auto$mpg, x))
+```
+Looking at the above correlation data, we can see that cylinders, displacement, horsepower and weight have strong negative correlation relationship with mpg. Which means that any of these will need to be decreased in order to increase the pas milage. We have already observed the negative correlation relationship between mpg and displacement before in the scatterplot.
+
+Plotting the respective plots:
+
+```{r}
+plot(mpg,cylinders, main="Negative correlation relationship observed", xlab="mpg", ylab="no of cylinders", col="blue")
+plot(mpg,horsepower, main="Negative correlation relationship observed", xlab="mpg", ylab="horsepower", col="orange")
+plot(mpg,weight, main="Negative correlation relationship observed", xlab="mpg", ylab="weight", col="red")
+plot(mpg,acceleration, main="Positive correlation relationship observed", xlab="mpg", ylab="acceleration", col="green")
+
+
+```
+# 4) Linear regression
+## This question involves the use of simple linear regression on the Auto data set.
+
+### (a) Use the lm() function to perform a simple linear regression with mpg as the response and horsepower as
+### the predictor. Use the summary() function to print the results. Comment on the output. For example:
+#### i. Is there a relationship between the predictor and the response?
+#### ii. How strong is the relationship between the predictor and the response?
+#### iii. Is the relationship between the predictor and the response positive or negative?
+#### iv. What is the predicted mpg associated with a horsepower of 89? What are the associated 99% confidence
+#### and prediction intervals?
+
+### (b) Plot the response and the predictor. Use the abline() function to display the least squares regression
+### line.
+
+### (c) Plot the 99% confidence interval and prediction interval in the same plot as (b) using different colours
+### and legends.inear regression
+
+# 5. Logistic regression
+## A recent study has shown that the accurate prediction of the office room occupancy leads to potential energy
+## savings of 30%. In this question, you are required to build logistic regression models by using different
+## environmental measurements as features, such as temperature, humidity, light, CO2 and humidity ratio, to
+## predict the office room occupancy. The provided training dataset consists of 2,000 samples, whilst the testing
+## dataset consists of 300 samples.
+
+#### (a) Load the training and testing datasets from corresponding files, and display the statistics about different
+#### features in the training dataset.
+#### (b) Build a logistic regression model by only using the Temperature feature to predict the room occupancy.
+#### Display the confusion matrix and the predictive accuracy obtained on the testing dataset.
+####(c) Build a logistic regression model by only using the Humidity feature to predict the room occupancy.
+####D isplay the confusion matrix and the predictive accuracy obtained on the testing dataset.
+#### (d) Build a logistic regression model by using all features to predict the room occupancy. Display the
+#### confusion matrix and the predictive accuracy obtained on the testing dataset.
+#### (e) Compare the predictive performance of three different models by drawing ROC curves and calculating
+#### the AUROC values. Discuss the comparison results.
