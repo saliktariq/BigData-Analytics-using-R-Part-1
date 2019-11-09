@@ -187,7 +187,7 @@ We can see that by increasing the mpg, the displacement decreases, therefore by 
 ```{r}
 sapply(Auto3, function(x) cor(Auto$mpg, x))
 ```
-Looking at the above correlation data, we can see that cylinders, displacement, horsepower and weight have strong negative correlation relationship with mpg. Which means that any of these will need to be decreased in order to increase the pas milage. We have already observed the negative correlation relationship between mpg and displacement before in the scatterplot.
+Looking at the above correlation data, we can see that cylinders, displacement, horsepower and weight have strong negative correlation relationship with mpg. Which means that any of these will need to be decreased in order to increase the gas milage. We have already observed the negative correlation relationship between mpg and displacement before in the scatterplot.
 
 Plotting the respective plots:
 
@@ -204,14 +204,48 @@ plot(mpg,acceleration, main="Positive correlation relationship observed", xlab="
 
 ### (a) Use the lm() function to perform a simple linear regression with mpg as the response and horsepower as
 ### the predictor. Use the summary() function to print the results. Comment on the output. For example:
+
+```{r}
+library(ISLR)
+lm.fit <- lm(mpg ~ horsepower, data=Auto)
+summary(lm.fit)
+
+```
+
 #### i. Is there a relationship between the predictor and the response?
+
+The p-value for the coefficients is very close to zero, implying statistical significance which means that there is a relationship.
+
 #### ii. How strong is the relationship between the predictor and the response?
+
+The adjusted R square value indicated that 60.59% of variation in the response variable mpg is due to the horsepower.
+
 #### iii. Is the relationship between the predictor and the response positive or negative?
+
+The regression coefficient of horsepower is negative; therefore the relationship is negative.
+
 #### iv. What is the predicted mpg associated with a horsepower of 89? What are the associated 99% confidence
 #### and prediction intervals?
 
+```{r}
+predict(lm.fit, data.frame(horsepower = c(89)))
+```
+The predicted mpg associated with horsepower of 89 is 25.88768. 
+```{r}
+predict(lm.fit, data.frame(horsepower = c(89)), interval = "confidence", conf.level=0.99)
+```
+The upper 99% confidence interval is 26.41279
+The lower 99% confidence interval is 25.36257
+```{r}
+predict(lm.fit, data.frame(horsepower = c(89)), interval = "prediction", pred.level=0.99)
+```
+The upper 99% prediction interval is 35.547
+The lower 99% prediction interval is 16.22836
+
 ### (b) Plot the response and the predictor. Use the abline() function to display the least squares regression
 ### line.
+
+
 
 ### (c) Plot the 99% confidence interval and prediction interval in the same plot as (b) using different colours
 ### and legends.inear regression
