@@ -196,7 +196,7 @@ plot(mpg,cylinders, main="Negative correlation relationship observed", xlab="mpg
 plot(mpg,horsepower, main="Negative correlation relationship observed", xlab="mpg", ylab="horsepower", col="orange")
 plot(mpg,weight, main="Negative correlation relationship observed", xlab="mpg", ylab="weight", col="red")
 plot(mpg,acceleration, main="Positive correlation relationship observed", xlab="mpg", ylab="acceleration", col="green")
-
+detach(Auto3)
 
 ```
 # 4) Linear regression
@@ -232,12 +232,14 @@ predict(lm.fit, data.frame(horsepower = c(89)))
 ```
 The predicted mpg associated with horsepower of 89 is 25.88768. 
 ```{r}
-predict(lm.fit, data.frame(horsepower = c(89)), interval = "confidence", conf.level=0.99)
+p_conf <- predict(lm.fit, data.frame(horsepower = c(89)), interval = "confidence", conf.level=0.99)
+print(p_conf)
 ```
 The upper 99% confidence interval is 26.41279
 The lower 99% confidence interval is 25.36257
 ```{r}
-predict(lm.fit, data.frame(horsepower = c(89)), interval = "prediction", pred.level=0.99)
+p_pred <- predict(lm.fit, data.frame(horsepower = c(89)), interval = "prediction", pred.level=0.99)
+print(p_pred)
 ```
 The upper 99% prediction interval is 35.547
 The lower 99% prediction interval is 16.22836
@@ -245,10 +247,34 @@ The lower 99% prediction interval is 16.22836
 ### (b) Plot the response and the predictor. Use the abline() function to display the least squares regression
 ### line.
 
+```{r}
+
+plot(Auto$mpg ~ Auto$horsepower, main="MPG v Horsepower", xlab="Horsepower", ylab="MPG", col="blue")
+abline(coef = coef(lm.fit), col="red")
+```
 
 
 ### (c) Plot the 99% confidence interval and prediction interval in the same plot as (b) using different colours
-### and legends.inear regression
+### and legends.
+```{r}
+plot(Auto$mpg ~ Auto$horsepower, main="MPG v Horsepower", xlab="Horsepower", ylab="MPG", col="blue")
+abline(coef = coef(lm.fit), col="red")
+newHP <- data.frame(horsepower=seq(40,230,length=50)
+                  )
+p_conf <- predict(lm.fit, newHP,interval="confidence", conf.level=0.99)
+p_pred <- predict(lm.fit, newHP,interval="prediction", conf.level=0.99)
+lines(newHP$horsepower, p_conf[,"lwr"], col="green", type="b", pch="+")
+lines(newHP$horsepower, p_conf[,"upr"], col="green", type="b", pch="+")
+lines(newHP$horsepower, p_pred[,"upr"], col="orange", type="b", pch="*")
+lines(newHP$horsepower, p_pred[,"lwr"], col="orange", type="b", pch="*")
+legend("topright",
+pch=c("+","*"),
+col=c("green","orange"),
+legend = c("confidence","prediction"))
+
+
+
+```
 
 # 5. Logistic regression
 ## A recent study has shown that the accurate prediction of the office room occupancy leads to potential energy
