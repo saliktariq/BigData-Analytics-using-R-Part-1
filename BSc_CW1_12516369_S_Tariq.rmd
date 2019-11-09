@@ -349,3 +349,5 @@ auroc3 <- performance(pred3, measure="auc")
 auroc_value3 <- auroc3@y.values[[1]]
 auroc_value3
 ```
+
+From the values of AUROC and ROC curves, we can see that the predictive performance of logistic regression model to predict the occupancy is best when all features are assessed; therefore the AUROC value of the last model is largest at 0.797778 and the area under the ROC curve is largest for that model hence it is the best predictive model amongst the 3 we observed here.
