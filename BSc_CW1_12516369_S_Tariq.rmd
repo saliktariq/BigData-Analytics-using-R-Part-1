@@ -285,11 +285,67 @@ legend = c("confidence","prediction"))
 
 #### (a) Load the training and testing datasets from corresponding files, and display the statistics about different
 #### features in the training dataset.
+```{r}
+training_data <- read.table("Training_set for Q5.txt", header=T, sep=",")
+testing_data <- read.table("Testing_set for Q5.txt", header = T, sep=",")
+summary(training_data)
+```
 #### (b) Build a logistic regression model by only using the Temperature feature to predict the room occupancy.
 #### Display the confusion matrix and the predictive accuracy obtained on the testing dataset.
+```{r}
+glm.temp.fit <- glm(Occupancy ~ Temperature,data=training_data,family = binomial)
+prediction1 <- predict(glm.temp.fit, testing_data, type="response")
+CM <- table(prediction = prediction1, truth = testing_data$Occupancy)
+print(CM)
+
+```
+
 ####(c) Build a logistic regression model by only using the Humidity feature to predict the room occupancy.
 ####D isplay the confusion matrix and the predictive accuracy obtained on the testing dataset.
+```{r}
+glm.humid.fit <- glm(Occupancy ~ Humidity,data=training_data,family = binomial)
+prediction2 <- predict(glm.humid.fit, testing_data, type="response")
+CM2 <- table(prediction = prediction2, truth = testing_data$Occupancy)
+print(CM2)
+
+```
 #### (d) Build a logistic regression model by using all features to predict the room occupancy. Display the
 #### confusion matrix and the predictive accuracy obtained on the testing dataset.
+```{r}
+glm.all.fit <- glm(Occupancy ~ Temperature+Humidity+Light+CO2+HumidityRatio,data=training_data,family = binomial)
+prediction3 <- predict(glm.all.fit, testing_data, type="response")
+CM3 <- table(prediction = prediction3, truth = testing_data$Occupancy)
+print(CM3)
+```
 #### (e) Compare the predictive performance of three different models by drawing ROC curves and calculating
 #### the AUROC values. Discuss the comparison results.
+ROC Curve and AUROC values for prediction based on Temperature
+```{r}
+#install.packages("ROCR")
+library(ROCR)
+pred <- prediction(prediction1, testing_data$Occupancy)
+perf <- performance(pred, measure="tpr", x.measure = "fpr")
+plot(perf,colorize=TRUE)
+auroc <- performance(pred, measure="auc")
+auroc_value <- auroc@y.values[[1]]
+auroc_value
+```
+ROC Curve and AUROC values for prediction based on Humidity
+```{r}
+pred2 <- prediction(prediction2, testing_data$Occupancy)
+perf2 <- performance(pred2, measure="tpr", x.measure = "fpr")
+plot(perf2,colorize=TRUE)
+auroc2 <- performance(pred2, measure="auc")
+auroc_value2 <- auroc2@y.values[[1]]
+auroc_value2
+```
+ROC Curve and AUROC values for prediction based on all available variables
+
+```{r}
+pred3 <- prediction(prediction3, testing_data$Occupancy)
+perf3 <- performance(pred3, measure="tpr", x.measure = "fpr")
+plot(perf3,colorize=TRUE)
+auroc3 <- performance(pred3, measure="auc")
+auroc_value3 <- auroc3@y.values[[1]]
+auroc_value3
+```
