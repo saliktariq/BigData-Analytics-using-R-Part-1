@@ -48,7 +48,7 @@ P(Play Golf = No | Temperature = Cool) = (0.375 * 0.5)/0.4 = 0.46875
 
 ```{r}
 
-install.packages("ISLR")
+#install.packages("ISLR")
 library(ISLR) #this library contains Auto dataset
 ```
 
