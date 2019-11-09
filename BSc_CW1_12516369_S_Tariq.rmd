@@ -28,6 +28,21 @@ Worse - The flexible statistical learning method will incorporate the noise in e
 ## (i.e. yes or no), you are required to use the Bayes’ rule to calculate the probability of playing golf according
 ## to the temperature, i.e. P(Play Golf | Temperature).
 
+P(Play Golf = Yes) = 10/20 = 0.5
+P(Play Gold = No) = 10/20 = 0.5
+P(Temperature = Hot) = 12/20 = 0.6
+P(Temperature = Cool) = 8/20 = 0.4
+
+P(Temperature = Hot | Play Golf = Yes) = 5/12 = 0.4166
+P(Temperature = Hot | Play Golf = No) = 7/12 = 0.5834
+P(Temperature = Cool | Play Golf = Yes) = 5/8 = 0.625
+P(Temperature = Cool | Play Golf = No) = 3/8 = 0.375
+
+P(Play Golf = Yes | Temperature = Hot) = (0.4166 * 0.5)/0.6 = 0.347
+P(Play Golf = No | Temperature = Hot) = (0.5834 * 0.5)/0.6 = 0.486
+P(Play Golf = Yes | Temperature = Cool) = (0.625 * 0.5)/0.4 = 0.78125
+P(Play Golf = No | Temperature = Cool) = (0.375 * 0.5)/0.4 = 0.46875
+
 # 3) Descriptive analysis
 ## This exercise involves the Auto data set studied in the class.
 
