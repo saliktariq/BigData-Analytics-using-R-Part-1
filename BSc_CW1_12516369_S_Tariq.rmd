@@ -279,7 +279,9 @@ summary(training_data)
 #### Display the confusion matrix and the predictive accuracy obtained on the testing dataset.
 ```{r}
 glm.temp.fit <- glm(Occupancy ~ Temperature,data=training_data,family = binomial)
-prediction1 <- predict(glm.temp.fit, testing_data, type="response")
+probability1 <- predict(glm.temp.fit, newdata= testing_data, type="response")
+prediction1<- rep(0,nrow(testing_data))
+prediction1[probability1>0.5]<-1
 CM <- table(prediction = prediction1, truth = testing_data$Occupancy)
 print(CM)
 
@@ -289,7 +291,9 @@ print(CM)
 ####D isplay the confusion matrix and the predictive accuracy obtained on the testing dataset.
 ```{r}
 glm.humid.fit <- glm(Occupancy ~ Humidity,data=training_data,family = binomial)
-prediction2 <- predict(glm.humid.fit, testing_data, type="response")
+probability2 <- predict(glm.humid.fit, newdata= testing_data, type="response")
+prediction2<- rep(0,nrow(testing_data))
+prediction2[probability2>0.5]<-1
 CM2 <- table(prediction = prediction2, truth = testing_data$Occupancy)
 print(CM2)
 
@@ -298,7 +302,10 @@ print(CM2)
 #### confusion matrix and the predictive accuracy obtained on the testing dataset.
 ```{r}
 glm.all.fit <- glm(Occupancy ~ Temperature+Humidity+Light+CO2+HumidityRatio,data=training_data,family = binomial)
-prediction3 <- predict(glm.all.fit, testing_data, type="response")
+
+probability3 <- predict(glm.all.fit, newdata= testing_data, type="response")
+prediction3<- rep(0,nrow(testing_data))
+prediction3[probability3>0.5]<-1
 CM3 <- table(prediction = prediction3, truth = testing_data$Occupancy)
 print(CM3)
 ```
@@ -335,4 +342,4 @@ auroc_value3 <- auroc3@y.values[[1]]
 auroc_value3
 ```
 
-From the values of AUROC and ROC curves, we can see that the predictive performance of logistic regression model to predict the occupancy is best when all features are assessed; therefore the AUROC value of the last model is largest at 0.797778 and the area under the ROC curve is largest for that model hence it is the best predictive model amongst the 3 we observed here.
+From the values of AUROC and ROC curves, we can see that the predictive performance of logistic regression model to predict the occupancy is best when all features are assessed; therefore the AUROC value of the last model is largest at 0.775 and the area under the ROC curve is largest for that model hence it is the best predictive model amongst the 3 we observed here.
