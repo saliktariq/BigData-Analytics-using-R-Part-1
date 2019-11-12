@@ -33,15 +33,15 @@ P(Play Gold = No) = 10/20 = 0.5
 P(Temperature = Hot) = 12/20 = 0.6
 P(Temperature = Cool) = 8/20 = 0.4
 
-P(Temperature = Hot | Play Golf = Yes) = 5/12 = 0.4166
-P(Temperature = Hot | Play Golf = No) = 7/12 = 0.5834
-P(Temperature = Cool | Play Golf = Yes) = 5/8 = 0.625
-P(Temperature = Cool | Play Golf = No) = 3/8 = 0.375
+P(Temperature = Hot | Play Golf = Yes) = 5/10 = 0.5
+P(Temperature = Hot | Play Golf = No) = 7/10 = 0.7
+P(Temperature = Cool | Play Golf = Yes) = 5/10 = 0.5
+P(Temperature = Cool | Play Golf = No) = 3/10 = 0.3
 
-P(Play Golf = Yes | Temperature = Hot) = (0.4166 * 0.5)/0.6 = 0.347
-P(Play Golf = No | Temperature = Hot) = (0.5834 * 0.5)/0.6 = 0.486
-P(Play Golf = Yes | Temperature = Cool) = (0.625 * 0.5)/0.4 = 0.78125
-P(Play Golf = No | Temperature = Cool) = (0.375 * 0.5)/0.4 = 0.46875
+P(Play Golf = Yes | Temperature = Hot) = (0.5 * 0.5)/0.6 = 5/12
+P(Play Golf = No | Temperature = Hot) = (0.7 * 0.5)/0.6 = 7/12
+P(Play Golf = Yes | Temperature = Cool) = (0.5 * 0.5)/0.4 = 5/8
+P(Play Golf = No | Temperature = Cool) = (0.3 * 0.5)/0.4 = 3/8
 
 # 3) Descriptive analysis
 ## This exercise involves the Auto data set studied in the class.
@@ -96,45 +96,15 @@ range(Auto$origin)
 Range for origin is from 1 to 3
 ### (c) What is the median and variance of each quantitative predictor?
 ```{r}
-mean(Auto$mpg)
-var(Auto$mpg)
+library(ISLR)
+apply(Auto[,1:8],2,median)
 ```
-mean is 23.44592 and variance is 60.91814
+Medians of all quantitative predictors
 ```{r}
-mean(Auto$cylinders)
-var(Auto$cylinders)
+apply(Auto[,1:8],2,var)
 ```
-mean is 5.471939  and variance is 2.909696
-```{r}
-mean(Auto$displacement)
-var(Auto$displacement)
-```
-mean is 194.412 and variance is 10950.37
-```{r}
-mean(Auto$horsepower)
-var(Auto$horsepower)
-```
-mean is 104.4694 and variance is 1481.569
-```{r}
-mean(Auto$weight)
-var(Auto$weight)
-```
-mean is 2977.584 and variance is 721484.7
-```{r}
-mean(Auto$acceleration)
-var(Auto$acceleration)
-```
-mean is 15.54133 and variance is 7.611331
-```{r}
-mean(Auto$year)
-var(Auto$year)
-```
-mean is 75.97959 and variance is 13.56991
-```{r}
-mean(Auto$origin)
-var(Auto$origin)
-```
-mean is 1.576531 and variance is 0.6488595
+Variance of all quantitative predictors
+
 
 ### (d) Now remove the 11th through 79th observations (inclusive) in the dataset. What is the range, median,
 ### and variance of each predictor in the subset of the data that remains?
@@ -233,7 +203,7 @@ The p-value for the coefficients is very close to zero, implying statistical sig
 
 #### ii. How strong is the relationship between the predictor and the response?
 
-The adjusted R square value indicated that 60.59% of variation in the response variable mpg is due to the horsepower.
+The adjusted R square value indicated that 60.59% of variation in the response variable mpg is due to the horsepower. Also the coefficient value for horsepower is -0.157845 indicates an inverse relationship between the mpg and horsepower.
 
 #### iii. Is the relationship between the predictor and the response positive or negative?
 
